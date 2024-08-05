@@ -12,7 +12,6 @@ interface FormFieldProps extends TextInputProps{
 const FormField = (props: FormFieldProps) => {
     const {icon, name, placeholder, ...rest} = props;
     const {handleBlur, handleChange, errors} = useFormikContext();
-    console.log({errors})
   return (
     <>
     <AppTextInput
