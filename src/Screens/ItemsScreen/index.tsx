@@ -1,6 +1,7 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, Platform, StyleSheet, View, StatusBar } from "react-native";
 import React, { useState } from "react";
 import Card from "../../Components/Card/Card";
+import ScreenLayout from "../../Components/ScreenLayout";
 
 const ListItems = [
   {
@@ -19,23 +20,30 @@ const ItemsScreen = () => {
   const [dataItems, setDataItems] = useState(ListItems);
   const [refreshing, _setRefreshing] = useState(false);
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={dataItems}
-        keyExtractor={(item) => item.title}
-        refreshing={refreshing}
-        onRefresh={() => {
-          setDataItems([ListItems[0]]);
-        }}
-        renderItem={({ item }) => (
-          <Card
-            imgSource={item.image}
-            title={item.title}
-            subtitle={item.price}
-          />
-        )}
-      />
-    </View>
+    <ScreenLayout>
+      <View style={styles.container}>
+        <FlatList
+          style={{ padding: 5 }}
+          data={dataItems}
+          keyExtractor={(item) => item.title}
+          refreshing={refreshing}
+          onRefresh={() => {
+            _setRefreshing(true);
+            setDataItems([ListItems[0]]);
+            setTimeout(() => {
+              _setRefreshing(false);
+            }, 7000);
+          }}
+          renderItem={({ item }) => (
+            <Card
+              imgSource={item.image}
+              title={item.title}
+              subtitle={item.price}
+            />
+          )}
+        />
+      </View>
+    </ScreenLayout>
   );
 };
 
@@ -44,8 +52,6 @@ export default ItemsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f4f4",
     padding: 20,
-    paddingTop: 60,
   },
 });
