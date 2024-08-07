@@ -1,12 +1,7 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, TouchableHighlight, View, Text } from "react-native";
 import UserListing from "../../Components/UserListing";
 import IconToList from "../../Components/List/IconToList";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const accountItems = [
   {
@@ -57,7 +52,9 @@ const MyAccountScreen = () => {
             />
           )}
           renderItem={({ item }) => (
-            <IconToList item={item} onPress={() => console.log(item)} />
+            <Swipeable >
+              <IconToList item={item} onPress={() => console.log(item)} />
+            </Swipeable>
           )}
         />
       </View>
