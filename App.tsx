@@ -9,10 +9,13 @@ import {
   RegisterScreen,
   ListingEditScreen,
 } from "./src/Screens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   return (
-    <ListingEditScreen />
+    <GestureHandlerRootView style={{flex: 1}}>
+      <MyAccountScreen />
+    </GestureHandlerRootView>
     // <View
     //   style={{
     //     flex: 1,
