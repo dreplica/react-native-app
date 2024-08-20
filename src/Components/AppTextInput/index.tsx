@@ -5,18 +5,20 @@ import {
   View,
   TextInputProps,
   Platform,
+  DimensionValue,
 } from "react-native";
 import Colors from "../../config/colors";
 
 interface AppTextInput extends TextInputProps {
   icon?: keyof typeof MaterialCommunityIcons.glyphMap;
+  width?: DimensionValue;
 }
 
 const AppTextInput = (props: AppTextInput) => {
-  const { icon, ...rest } = props;
+  const { icon, width = "100%", ...rest } = props;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width }]}>
       {icon && (
         <MaterialCommunityIcons
           name={icon}

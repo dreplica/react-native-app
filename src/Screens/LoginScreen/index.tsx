@@ -1,10 +1,18 @@
-import { Image, StyleSheet, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+} from "react-native";
 import * as Yup from "yup";
 
 import ScreenLayout from "../../Components/ScreenLayout";
 import FormField from "../../Components/Form/FormField";
 import FormButton from "../../Components/Form/FormButton";
 import AppForm from "../../Components/Form/AppForm";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../../Navigation/Routes";
 
 const validation = Yup.object().shape({
   email: Yup.string()
@@ -16,6 +24,7 @@ const validation = Yup.object().shape({
 });
 
 const LoginScreen = () => {
+  const navigator = useNavigation();
   return (
     <ScreenLayout>
       <View style={styles.wrapper}>
@@ -29,6 +38,7 @@ const LoginScreen = () => {
             validationSchema={validation}
             onSubmit={(values) => {
               console.log(values);
+              navigator.navigate("mainscreen");
             }}
           >
             <FormField
@@ -46,6 +56,22 @@ const LoginScreen = () => {
               autoComplete="off"
               textContentType="password"
             />
+            <View style={{ width: "100%", marginBottom: 10 }}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigator.navigate(Routes.SIGN_UP);
+                }}
+              >
+                <Text style={{ color: "red" }}>Forgot password?</Text>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  navigator.navigate(Routes.SIGN_UP);
+                }}
+              >
+                <Text>Signup</Text>
+              </TouchableWithoutFeedback>
+            </View>
             <FormButton title="Submit" />
           </AppForm>
         </View>

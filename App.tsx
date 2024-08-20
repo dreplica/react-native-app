@@ -1,41 +1,16 @@
-import { View } from "react-native";
-import {
-  WelcomeScreen,
-  ViewImageScreen,
-  ItemListingScreen,
-  ItemsScreen,
-  MyAccountScreen,
-  LoginScreen,
-  RegisterScreen,
-  ListingEditScreen,
-} from "./src/Screens";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthStackNavigator from "./src/Navigation/AuthNavigator";
+import MainNavigator from "./src/Navigation/MainNavigator";
+import Theme from './src/Navigation/NavigatorTheme'
 
 export default function App() {
+  const loggedIn = true;
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <MyAccountScreen />
+    <GestureHandlerRootView>
+      <NavigationContainer theme={Theme}>
+        {!loggedIn ? <AuthStackNavigator /> : <MainNavigator />}
+      </NavigationContainer>
     </GestureHandlerRootView>
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     backgroundColor: "white",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <View
-    //     style={{
-    //       width: 100,
-    //       height: 100,
-    //       backgroundColor: "dodgerblue",
-    //       shadowColor: "grey",
-    //       shadowOffset: { width: 0, height: 0 },
-    //       shadowOpacity: 0.9,
-    //       shadowRadius: 20,
-    //       elevation: 10,
-    //     }}
-    //   ></View>
-    // </View>
   );
 }

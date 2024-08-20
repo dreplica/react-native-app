@@ -1,20 +1,26 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, ImageSourcePropType } from "react-native";
 import styles from "./styles";
 import UserListing from "../../Components/UserListing";
+import { useRoute } from "@react-navigation/native";
+
+type RouteParams = {
+  params: { image: ImageSourcePropType; title: string; price: string };
+};
 
 const ItemListingScreen = () => {
+  const { params } = useRoute() as RouteParams;
   return (
     <View style={styles.container}>
       <View style={styles.listContainer}>
         <View style={styles.wrapper}>
           <Image
-            source={require("../../assets/jacket.jpg")}
+            source={params.image}
             style={styles.imageItem}
             resizeMode="cover"
           />
           <View style={styles.textWrapper}>
-            <Text style={styles.title}>Red jacket for sale!!</Text>
-            <Text style={styles.subtitle}>$100</Text>
+            <Text style={styles.title}>{params.title}</Text>
+            <Text style={styles.subtitle}>{params.price}</Text>
           </View>
         </View>
       </View>

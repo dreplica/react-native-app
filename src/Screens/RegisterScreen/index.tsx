@@ -50,7 +50,7 @@ const RegisterScreen = () => {
               autoComplete="off"
               textContentType="password"
             />
-            <FormButton title="Register" />
+            <FormButton title="Signup" />
           </AppForm>
         </View>
       </View>

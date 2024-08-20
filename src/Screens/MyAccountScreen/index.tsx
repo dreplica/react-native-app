@@ -2,6 +2,8 @@ import { FlatList, StyleSheet, TouchableHighlight, View, Text } from "react-nati
 import UserListing from "../../Components/UserListing";
 import IconToList from "../../Components/List/IconToList";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../../Navigation/Routes";
 
 const accountItems = [
   {
@@ -15,6 +17,7 @@ const accountItems = [
     iconbg: "#7fc9aa",
     title: "My Messages",
     id: "2",
+    target: Routes.MESSAGES
   },
 ];
 
@@ -25,6 +28,7 @@ const logout = {
 };
 
 const MyAccountScreen = () => {
+  const navigator = useNavigation();
   return (
     <View style={styles.container}>
       <TouchableHighlight
@@ -53,7 +57,7 @@ const MyAccountScreen = () => {
           )}
           renderItem={({ item }) => (
             <Swipeable >
-              <IconToList item={item} onPress={() => console.log(item)} />
+              <IconToList item={item} onPress={() => navigator.navigate(item.target)} />
             </Swipeable>
           )}
         />

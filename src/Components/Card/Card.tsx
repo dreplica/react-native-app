@@ -4,6 +4,7 @@ import {
   View,
   ImageSourcePropType,
   Image,
+  TouchableWithoutFeedback,
 } from "react-native";
 import SubDetail from "../SubDetail";
 
@@ -11,17 +12,20 @@ interface CardProps {
   imgSource: ImageSourcePropType;
   title: string;
   subtitle: string;
+  onPress(): void;
 }
 
 const Card = (props: CardProps) => {
-  const { imgSource, title, subtitle } = props;
+  const { imgSource, title, subtitle, onPress } = props;
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <Image source={imgSource} style={styles.image} resizeMode="cover" />
-        <SubDetail title={title} subtitle={subtitle} />
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <Image source={imgSource} style={styles.image} resizeMode="cover" />
+          <SubDetail title={title} subtitle={subtitle} />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -35,9 +39,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 20,
     shadowColor: "#171717",
-    shadowOffset: {height: 1, width: 0},
+    shadowOffset: { height: 1, width: 0 },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowRadius: 1,
     elevation: 20,
   },
   wrapper: {

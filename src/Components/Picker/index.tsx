@@ -1,4 +1,5 @@
 import {
+  DimensionValue,
   Modal,
   Platform,
   StyleSheet,
@@ -9,23 +10,33 @@ import {
 import MaterialIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import colors from "../../config/colors";
 import { ReactNode } from "react";
+import Button from "../Button/Button";
+import ScreenLayout from "../ScreenLayout";
 
 type PickerItemType = { value: string; label: string };
 
 interface PickerProps {
   placeholder?: string;
   value: string;
-  onChange(text: string): void;
   items: PickerItemType[];
   visible: boolean;
-  setVisible(value: boolean): void;
   children: ReactNode;
+  width?: DimensionValue;
+  onChange(text: string): void;
+  setVisible(value: boolean): void;
 }
 
 const Picker = (props: PickerProps) => {
-  const { placeholder, value, onChange, items, visible, setVisible, children } = props;
+  const {
+    children,
+    placeholder,
+    value,
+    visible,
+    width = "100%",
+    setVisible,
+  } = props;
 
-  const valueStyleName = !value ? 'placeholder' : 'value';
+  const valueStyleName = !value ? "placeholder" : "value";
   const openModal = () => {
     setVisible(true);
   };
@@ -33,13 +44,24 @@ const Picker = (props: PickerProps) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={openModal}>
-        <View style={styles.container}>
-          <Text style={styles[valueStyleName]}>{!value ? placeholder : value}</Text>
+        <View style={[styles.container, { width }]}>
+          <Text style={styles[valueStyleName]}>
+            {!value ? placeholder : value}
+          </Text>
           <MaterialIcons name="arrow-down" color={colors.dark} />
         </View>
       </TouchableWithoutFeedback>
-      <Modal visible={visible} transparent animationType="slide" style={styles.modal}>
-        {children}
+      <Modal visible={visible} animationType="slide" style={styles.modal}>
+        <ScreenLayout>
+          <Button
+            title="close"
+            color="red"
+            onPress={() => {
+              setVisible(false);
+            }}
+          />
+          {children}
+        </ScreenLayout>
       </Modal>
     </>
   );
@@ -64,7 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   placeholder: {
-    color: colors.medium
+    color: colors.medium,
   },
   value: {
     color: colors.dark,
@@ -73,6 +95,6 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
   },
   modal: {
-    marginTop: "50%"
+    marginTop: "50%",
   },
 });

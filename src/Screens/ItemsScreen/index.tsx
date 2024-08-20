@@ -1,7 +1,10 @@
-import { FlatList, Platform, StyleSheet, View, StatusBar } from "react-native";
+import { FlatList, TouchableOpacity, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import Card from "../../Components/Card/Card";
 import ScreenLayout from "../../Components/ScreenLayout";
+import {} from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../../Navigation/Routes";
 
 const ListItems = [
   {
@@ -19,6 +22,7 @@ const ListItems = [
 const ItemsScreen = () => {
   const [dataItems, setDataItems] = useState(ListItems);
   const [refreshing, _setRefreshing] = useState(false);
+  const navigator = useNavigation();
   return (
     <ScreenLayout>
       <View style={styles.container}>
@@ -39,6 +43,9 @@ const ItemsScreen = () => {
               imgSource={item.image}
               title={item.title}
               subtitle={item.price}
+              onPress={() => {
+                navigator.navigate(Routes.LISTING_DETAILS, item);
+              }}
             />
           )}
         />

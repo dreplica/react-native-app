@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 interface IconToListProps {
-  item: Record<string, string>;
+  item: Record<string, string|undefined>;
   onPress(): void;
 }
 

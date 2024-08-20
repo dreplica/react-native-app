@@ -6,3 +6,4 @@ export {default as MyAccountScreen} from './MyAccountScreen'
 export {default as LoginScreen} from './LoginScreen'
 export {default as RegisterScreen} from './RegisterScreen'
 export {default as ListingEditScreen} from './ListingEditScreen'
+export { default as MessageScreen } from "./MessageScreen";

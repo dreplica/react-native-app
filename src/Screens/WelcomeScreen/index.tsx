@@ -3,8 +3,11 @@ import { StyleSheet, View, StatusBar, ImageBackground } from "react-native";
 import Button from "../../Components/Button/Button";
 import AppLogo from "../../Components/Logo/Logo";
 import Colors from "../../config/colors";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../../Navigation/Routes";
 
 const WelcomeScreen = () => {
+  const navigator = useNavigation();
   return (
     <ImageBackground
       blurRadius={5}
@@ -20,14 +23,14 @@ const WelcomeScreen = () => {
           title="Login"
           color={Colors.primary}
           onPress={() => {
-            console.log("login");
+            navigator.navigate(Routes.LOGIN)
           }}
         />
         <Button
           title="Signup"
           color={Colors.secondary}
           onPress={() => {
-            console.log("Signup");
+            navigator.navigate(Routes.SIGN_UP)
           }}
         />
       </View>

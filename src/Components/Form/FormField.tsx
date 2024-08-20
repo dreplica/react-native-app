@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInputProps, View } from "react-native";
+import { DimensionValue, StyleSheet, Text, TextInputProps, View } from "react-native";
 import {useFormikContext} from "formik";
 import AppTextInput from "../AppTextInput";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -7,10 +7,11 @@ import ErrorMessage from "./ErrorMessage";
 interface FormFieldProps extends TextInputProps{
     name: string;
     icon?: keyof typeof MaterialCommunityIcons.glyphMap;
+    width?: DimensionValue;
 }
 
 const FormField = (props: FormFieldProps) => {
-    const {icon, name, placeholder, ...rest} = props;
+    const {icon, name, ...rest} = props;
     const {handleBlur, handleChange, errors} = useFormikContext();
   return (
     <>
@@ -18,7 +19,6 @@ const FormField = (props: FormFieldProps) => {
       autoCapitalize="none"
       autoCorrect={false}
       icon={icon}
-      placeholder={placeholder}
       onBlur={handleBlur(name)}
       onChangeText={handleChange(name)}
       {...rest}
