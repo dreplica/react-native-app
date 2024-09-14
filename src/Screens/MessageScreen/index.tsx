@@ -26,7 +26,7 @@ const messages = [
   },
 ];
 
-const MessageItem = ({ image, title, description, hasChevron }) => {
+const MessageItem = ({ image, title, description, hasChevron }: any) => {
   return (
     <TouchableOpacity
       style={messageStyle.container}

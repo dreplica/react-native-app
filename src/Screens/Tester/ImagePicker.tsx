@@ -12,7 +12,6 @@ const ImageSelector = () => {
   const handleCameraPermission = async () => {
     try {
       const permission = await ImagePicker.getCameraPermissionsAsync();
-      console.log({ permission });
 
       if (permission.status !== ImagePicker.PermissionStatus.GRANTED) {
         ImagePicker.requestCameraPermissionsAsync();

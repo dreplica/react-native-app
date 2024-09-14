@@ -1,27 +1,30 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageSourcePropType,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, View, TouchableWithoutFeedback } from "react-native";
+import { Image } from "expo-image";
 import SubDetail from "../SubDetail";
 
 interface CardProps {
-  imgSource: ImageSourcePropType;
+  imgSource: string;
   title: string;
   subtitle: string;
+  thumbnail: string;
   onPress(): void;
 }
 
 const Card = (props: CardProps) => {
-  const { imgSource, title, subtitle, onPress } = props;
+  const { imgSource, title, subtitle, thumbnail, onPress } = props;
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.wrapper}>
-          <Image source={imgSource} style={styles.image} resizeMode="cover" />
+          <Image
+            source={{ uri: imgSource }}
+            style={styles.image}
+            contentFit="cover"
+            cachePolicy='memory'
+            placeholder={{uri: thumbnail}}
+            placeholderContentFit="cover"
+            transition={500}
+          />
           <SubDetail title={title} subtitle={subtitle} />
         </View>
       </View>

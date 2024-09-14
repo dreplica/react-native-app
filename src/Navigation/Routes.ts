@@ -5,6 +5,7 @@ export default Object.freeze({
     FEED: 'Feed',
     ADD_LISTING: 'addListing',
     ACCOUNT: 'account',
+    ACCOUNT_BASE: 'account_base',
     MESSAGES: 'messages',
     LISTING: 'listing',
     LISTING_DETAILS: 'listingDetails',

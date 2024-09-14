@@ -12,7 +12,7 @@ interface FormFieldProps extends TextInputProps{
 
 const FormField = (props: FormFieldProps) => {
     const {icon, name, ...rest} = props;
-    const {handleBlur, handleChange, errors} = useFormikContext();
+    const {handleBlur, errors, setFieldValue, values} = useFormikContext();
   return (
     <>
     <AppTextInput
@@ -20,7 +20,8 @@ const FormField = (props: FormFieldProps) => {
       autoCorrect={false}
       icon={icon}
       onBlur={handleBlur(name)}
-      onChangeText={handleChange(name)}
+      onChangeText={(value) => setFieldValue(name, value)}
+      value={(values as any)[name]}
       {...rest}
     />
     <ErrorMessage error={(errors as any)[name] as string}/>

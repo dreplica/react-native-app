@@ -16,7 +16,6 @@ const requestImagePermission = async (ImagePicker: ImagePickerType) => {
   const { granted } = await ImagePicker.getCameraPermissionsAsync();
   if (granted) return;
   const permission = await ImagePicker.requestCameraPermissionsAsync();
-  console.log("request", { permission });
   if (!permission.granted) {
     alert("You need to provide permission access to access Camera");
   }
@@ -30,19 +29,21 @@ const processImageSelected = async (ImagePicker: ImagePickerType) => {
     mediaTypes: ImagePicker.MediaTypeOptions.Images,
     quality: 0.5,
   });
-  console.log({ assets, canceled });
 
   if (canceled) return;
-  console.log({ assets, canceled });
   return assets.map((asset) => asset.uri);
 };
 
-const ImageInput = () => {
-  const [imagesUri, setImagesUri] = useState<string[]>([]);
-
+const ImageInput = ({
+  getImages,
+  imagesUri,
+}: {
+  getImages(args: string[]): void;
+  imagesUri: string[];
+}) => {
   const onChangeImage = (assets: string[]) => {
     const newImagesUr = [...imagesUri, ...assets];
-    setImagesUri(newImagesUr);
+    getImages(newImagesUr);
   };
 
   const onDeleteImage = (index: number) => {
@@ -51,7 +52,7 @@ const ImageInput = () => {
         text: "Delete",
         onPress() {
           const newImagesUri = imagesUri.filter((_, ind) => ind !== index);
-          setImagesUri(newImagesUri);
+          getImages(newImagesUri);
         },
       },
       {

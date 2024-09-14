@@ -7,7 +7,7 @@ const AccountNavigator = () => {
   return (
     <stack.Navigator>
       <stack.Screen
-        name={ROUTES.ACCOUNT}
+        name={ROUTES.ACCOUNT_BASE}
         component={MyAccountScreen}
         options={{ headerShown: false }}
       />

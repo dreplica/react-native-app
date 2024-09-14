@@ -23,11 +23,11 @@ const ViewImageScreen = () => {
           <MaterialIcons name="close" color={"#fff"} size={30} />
           <MaterialIcons name="trash-can-outline" color={"#fff"} size={30} />
         </View>
-        <Image
+        {/* <Image
           resizeMode="contain"
           style={image}
           source={require("../../assets/jacket.jpg")}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );

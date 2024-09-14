@@ -5,6 +5,10 @@ import ScreenLayout from "../../Components/ScreenLayout";
 import AppForm from "../../Components/Form/AppForm";
 import FormField from "../../Components/Form/FormField";
 import FormButton from "../../Components/Form/FormButton";
+import { FormikValues } from "formik";
+import { registerUser } from "../../API/ApiLayers";
+import { useNavigation } from "@react-navigation/native";
+import Routes from "../../Navigation/Routes";
 
 const validation = Yup.object().shape({
     email: Yup.string()
@@ -17,6 +21,16 @@ const validation = Yup.object().shape({
   });
 
 const RegisterScreen = () => {
+  const navigator = useNavigation();
+  const handleSubmit = async ({name, email, password}: FormikValues) => {
+    const {data, ok, problem} = await registerUser({name, email, password});
+    if (!ok) {
+      console.log({problem});
+      return
+    }
+    navigator.navigate(Routes.LOGIN as never),
+    console.log({data})
+  }
   return (
     <ScreenLayout>
       <View style={styles.wrapper}>
@@ -24,9 +38,7 @@ const RegisterScreen = () => {
           <AppForm
             initialValues={{ email: "", password: "", name: "" }}
             validationSchema={validation}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
+            onSubmit={handleSubmit}
           >
             <FormField
               icon="account"
@@ -39,7 +51,7 @@ const RegisterScreen = () => {
               icon="email"
               name="email"
               placeholder="Email"
-              keyboardType="decimal-pad"
+              keyboardType="default"
               textContentType="emailAddress"
             />
             <FormField

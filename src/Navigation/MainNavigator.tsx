@@ -1,9 +1,6 @@
 import { TouchableOpacity, View } from "react-native";
 import {
-  ViewImageScreen,
-  MyAccountScreen,
   ListingEditScreen,
-  MessageScreen,
 } from "../Screens";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,9 +8,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FeedNavigator from "./FeedNavigator";
 import AccountNavigator from "./AccountNavigator";
 import Routes from "./Routes";
+import useNotificationListeners from "../Hooks/useNotificationListeners";
 
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
+ useNotificationListeners();
   return (
     <Tab.Navigator
       screenOptions={{

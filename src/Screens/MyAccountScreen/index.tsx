@@ -1,9 +1,18 @@
-import { FlatList, StyleSheet, TouchableHighlight, View, Text } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+  Text,
+} from "react-native";
 import UserListing from "../../Components/UserListing";
 import IconToList from "../../Components/List/IconToList";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { useNavigation } from "@react-navigation/native";
 import Routes from "../../Navigation/Routes";
+import SecureStore from "../../Store/SecureStore";
+import { useContext } from "react";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
 
 const accountItems = [
   {
@@ -17,7 +26,7 @@ const accountItems = [
     iconbg: "#7fc9aa",
     title: "My Messages",
     id: "2",
-    target: Routes.MESSAGES
+    target: Routes.MESSAGES,
   },
 ];
 
@@ -29,6 +38,12 @@ const logout = {
 
 const MyAccountScreen = () => {
   const navigator = useNavigation();
+  const userDataContext = useContext(AuthContext);
+  const handleLogout = () => {
+    SecureStore.removeItem("token");
+    userDataContext?.setUser(null);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableHighlight
@@ -38,8 +53,8 @@ const MyAccountScreen = () => {
       >
         <UserListing
           imgSource={require("../../assets/mosh.jpg")}
-          title="Adejo David"
-          subtitle="thradishion@gmail.com"
+          title={userDataContext?.user?.name || ''}
+          subtitle={userDataContext?.user?.email || ''}
         />
       </TouchableHighlight>
       <View style={[styles.listItems, styles.listWrappper]}>
@@ -56,14 +71,17 @@ const MyAccountScreen = () => {
             />
           )}
           renderItem={({ item }) => (
-            <Swipeable >
-              <IconToList item={item} onPress={() => navigator.navigate(item.target)} />
+            <Swipeable>
+              <IconToList
+                item={item}
+                onPress={() => navigator.navigate(item.target as never)}
+              />
             </Swipeable>
           )}
         />
       </View>
       <View style={styles.listWrappper}>
-        <IconToList item={logout} onPress={() => console.log(logout)} />
+        <IconToList item={logout} onPress={handleLogout} />
       </View>
     </View>
   );

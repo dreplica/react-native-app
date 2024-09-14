@@ -51,7 +51,7 @@ const Picker = (props: PickerProps) => {
           <MaterialIcons name="arrow-down" color={colors.dark} />
         </View>
       </TouchableWithoutFeedback>
-      <Modal visible={visible} animationType="slide" style={styles.modal}>
+      <Modal visible={visible} animationType="slide" style={styles.modal} >
         <ScreenLayout>
           <Button
             title="close"
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
   },
   modal: {
-    marginTop: "50%",
+    // marginTop: "50%",
+    maxHeight: 300
   },
 });

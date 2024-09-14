@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 import * as Location from "expo-location";
 
@@ -10,6 +10,8 @@ import FormButton from "../../Components/Form/FormButton";
 import Picker from "../../Components/Picker";
 import PickerDisplay from "../../Components/Picker/PickerDisplay";
 import ImageInput from "../../Components/ImageInput/ImageInput";
+import { postUserListing } from "../../API/ApiLayers";
+import UploadSuccess from "../../Components/Animation/UploadSuccess";
 
 const pickerItems = [
   {
@@ -86,19 +88,31 @@ const validation = Yup.object().shape({
 
 const ListingEditScreen = () => {
   const [visible, setVisible] = useState(false);
-  const [category, setCategory] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [category, setCategory] = useState<
+    (typeof pickerItems)[0] & { ind: number }
+  >();
   const [location, setLocation] = useState({});
+  const [images, setImages] = useState<string[]>([]);
+
+  const handleSubmit = async (values: any, {resetForm}: Record<string, any>) => {
+    try {
+      const listing = { ...values, images, location, categoryId: category?.ind };
+      await postUserListing(listing);
+      setIsSuccess(true);
+      resetForm();
+    } catch (error) {
+      console.error({error})
+    }
+  };
 
   const getLocation = async () => {
     const { granted } = await Location.requestForegroundPermissionsAsync();
     if (!granted) return;
-console.log('did location come')
-const location = await Location.getCurrentPositionAsync();
-console.log(location)
+    const location = await Location.getCurrentPositionAsync();
 
     if (location?.coords) {
       const { latitude, longitude } = location.coords;
-      console.log(location.coords)
       setLocation({ latitude, longitude });
     }
   };
@@ -106,20 +120,19 @@ console.log(location)
   useEffect(() => {
     getLocation();
   }, []);
-console.log({location})
+
   return (
     <ScreenLayout>
+      <UploadSuccess visible={isSuccess} onFinish={() => setIsSuccess(false)}/>
       <View style={styles.wrapper}>
         <View style={{ width: "100%", height: "auto", paddingVertical: 10 }}>
-          <ImageInput />
+          <ImageInput getImages={setImages} imagesUri={images} />
         </View>
         <View style={styles.form}>
           <AppForm
-            initialValues={{ title: "", price: "", category: "description" }}
+            initialValues={{ title: "", price: "", description: ""}}
             validationSchema={validation}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
+            onSubmit={handleSubmit}
           >
             <FormField
               name="title"
@@ -129,13 +142,13 @@ console.log({location})
             <FormField
               name="price"
               placeholder="Price"
-              keyboardType="default"
+              keyboardType="numeric"
               width="30%"
             />
             <Picker
               visible={visible}
               setVisible={setVisible}
-              value={category}
+              value={category?.label as string}
               placeholder="Category"
               width="50%"
             >
@@ -143,14 +156,14 @@ console.log({location})
                 data={pickerItems}
                 keyExtractor={(item) => item.label}
                 numColumns={3}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                   <PickerDisplay
                     icon={item.icon}
                     label={item.label}
                     backgroundColor={item.backgroundColor}
                     onPress={() => {
                       setVisible(false);
-                      setCategory(item.label);
+                      setCategory({ ...item, ind: index });
                     }}
                   />
                 )}
